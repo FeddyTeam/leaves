@@ -4,12 +4,20 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const isAuthed = require('../../lib/isAuthed')
 const { Roles: { EDITOR } } = require('../../lib/isAuthed')
+const generateQiniuToken = require('../../lib/generateQiniuToken')
 const { isEmail, isLength } = require('validator')
 const { isEmpty, omitBy } = require('lodash')
 const { User, News } = require('../../db')
 const { JWT_SECRET } = process.env
 
 module.exports = {
+    utils: {
+        qiniuToken (_, args, { auth }) {
+            assert(isAuthed(auth), '401')
+
+            return generateQiniuToken()
+        }
+    },
     profile: {
         async get (_, args, { auth }) {
             assert(isAuthed(auth), '401')

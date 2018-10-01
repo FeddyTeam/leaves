@@ -8,6 +8,8 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 
+const applyPassport = require('./lib/applyPassport')
+
 const indexRouter = require('./routes/index')
 
 const app = express()
@@ -22,6 +24,8 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 apollo.applyMiddleware({ app })
+
+applyPassport({ app })
 
 app.use('/', indexRouter)
 

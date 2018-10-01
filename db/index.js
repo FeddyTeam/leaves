@@ -5,7 +5,18 @@ const timeFields = {
     updatedAt: { type: Date, default: Date.now }
 }
 
-mongoose.connect(process.env.MONGODB_URL)
+mongoose.connect(process.env.MONGODB_URL, {
+    useNewUrlParser: true,
+})
+
+const UserLink = mongoose.model('UserLink', {
+    provider: String,
+    key: String,
+    user: {
+        type: ObjectId,
+        ref: 'User',
+    },
+})
 
 const User = mongoose.model('User', {
     username: String,
@@ -16,11 +27,12 @@ const User = mongoose.model('User', {
         default: 'pending',
     },
 
-    fullname: String,
+    name: String,
     bio: String,
     avatar: String,
+    blog: String,
 
-    ...timeFields
+    ...timeFields,
 })
 
 const Figure = mongoose.model('Figure', {
@@ -75,4 +87,5 @@ module.exports = {
     User,
     News,
     Figure,
+    UserLink,
 }
