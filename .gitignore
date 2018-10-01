@@ -69,3 +69,5 @@ server/knex/knexfile.js
 *.map
 
 db/seeder.js
+
+public/skyland/*
