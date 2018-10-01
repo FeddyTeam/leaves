@@ -11,7 +11,7 @@ const { JWT_SECRET } = process.env
 
 module.exports = {
     profile: {
-        async get (root, args, { auth }, info) {
+        async get (_, args, { auth }) {
             assert(isAuthed(auth), '401')
             const { id } = auth
 
@@ -20,7 +20,7 @@ module.exports = {
 
             return user.toJSON()
         },
-        async update (root, { profile }, { auth }, info) {
+        async update (_, { profile }, { auth }) {
             assert(isAuthed(auth), '401')
             const { id } = auth
 
@@ -34,13 +34,13 @@ module.exports = {
         },
     },
     news: {
-        async list (root, { options, filters }, { auth }, info) {
+        async list (_, { options, filters }, { auth }) {
             assert(isAuthed(auth, EDITOR), '401')
 
             const results = await News.find(omitBy(filters, isEmpty), null, options)
             return results
         },
-        async create (root, args, { auth }, info) {
+        async create (_, args, { auth }) {
             assert(isAuthed(auth, EDITOR), '401')
             const { id } = auth
 
@@ -52,7 +52,7 @@ module.exports = {
 
             return news.get('id')
         },
-        async update (root, { news }, { auth }, info) {
+        async update (_, { news }, { auth }) {
             assert(isAuthed(auth, EDITOR), '401')
 
             const _news = await News.findById(news.id)
@@ -63,7 +63,7 @@ module.exports = {
 
             return _news.toJSON()
         },
-        async get (root, { id }, { auth }, info) {
+        async get (_, { id }, { auth }) {
             assert(isAuthed(auth, EDITOR), '401')
 
             const news = await News.findById(id).populate('user')
@@ -73,7 +73,7 @@ module.exports = {
         },
     },
     auth: {
-        async login (root, { form: { email, password } }, context, info) {
+        async login (_, { form: { email, password } }) {
             const isValid = isEmail(email) && isLength(password, { min: 6, max: 32 })
             assert(isValid, 'bad_request@login')
 
