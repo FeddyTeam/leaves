@@ -1,0 +1,154 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.card {
+    margin: 10px;
+    padding: 15px;
+    /* box-shadow: 0 2px 5px 100px #ddd; */
+    border: 1px solid #ddd;
+}
+
+.bubble {
+    display: block;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-bottom: 3px solid #ddd;
+    border-right: 2px solid #ddd;
+    border-radius: 3px;
+    transition-duration: .2s;
+}
+
+.bubble:hover {
+    transform: scale(1.05);
+}
+
+.bubble-header,
+.bubble-body,
+.bubble-footer {
+    padding: 15px;
+}
+
+.bubble-header {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #ddd;
+}
+
+.bubble-footer {
+    border-top: 1px solid #ddd;
+}
+
+.bubble-header__icon {
+    margin: -15px 0 -15px -15px;
+    padding: 5px;
+}
+
+.bubble-header__icon img {
+    display: block;
+    height: 40px;
+    border: 1px solid #ccc;
+}
+
+.bubble-header__username {
+    flex: 1;
+}
+
+.bubble-header__date {
+}
+
+
+.card-body img {
+    max-width: 100%;
+}
+
+
+.section {
+    padding: 48px;
+    overflow: hidden;
+}
+
+.section-header {
+    margin: 0 -60px 32px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.section-body-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: stretch;
+}
+
+.post-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 320px;
+
+    overflow: hidden;
+    margin: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.post-card-meta {
+    padding: 20px;
+}
+
+.post-card-image {
+    height: 240px;
+    background-position: center;
+    background-size: cover;
+    background-color: lightgoldenrodyellow;
+}
+
+.post-card-content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.post-card.post-card__mustread {
+    flex-basis: 480px;
+}
+
+.post-card.post-card__mustread .post-card-image {
+    height: 480px;
+}
+
+.carousel-card {
+    position: relative;
+    width: 60vw;
+
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.carousel-card-image {
+    height: 60vh;
+    margin: 20px;
+    border: 1px solid #ddd;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: lightcyan;
+}
+
+.carousel-card-content {
+
+}
+
+.carousel-card-meta {
+    margin: 20px;
+}
+
+.carousel-card__title {
+    margin: 12px 0;
+}
+
+/* .owl-item {
+    width: 60vw !important;
+    height: 60vh !important;
+} */
+

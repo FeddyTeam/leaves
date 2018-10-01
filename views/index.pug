@@ -1,5 +1,72 @@
 extends layout
 
-block content
-    h1= title
-    p Welcome to #{title}
+block title
+    title Hello World!
+
+block main
+    if mustread
+        .owl-carousel
+            for item in mustread.slice(0, 4)
+                .carousel-card
+                    .carousel-card-image(style=`background-image: url(${item.image});`)
+                    .carousel-card-meta
+                        h5.carousel-card__title= item.title
+                        span= item.altTitle
+
+    section.section
+        h4.section-header About Feddy / 关于我们
+        p.text-center 这里可以考虑放一些理念之类的东西
+
+    if event
+        section.section
+            h4.section-header EVENTS / 线下活动
+            .section-body-cards
+                for item in event.slice(0, 4)
+                    .post-card
+                        .post-card-meta
+                            span= item.title
+                        a.post-card-image(href=item.link style=`background-image: url(${item.altImage});`)
+                        .post-card-content
+                            p= item.content.replace(/<[^<>]+>/g, '')
+                            p: a(href=item.link) Read more &gt;&gt;
+
+    if project
+        section.section
+            h4.section-header PROJECTS / 有趣的项目
+            .section-body-cards
+                for item in project.slice(0, 4)
+                    .post-card
+                        .post-card-meta
+                            span= item.title
+                        a.post-card-image(href=item.link style=`background-image: url(${item.altImage});`)
+                        .post-card-content
+                            p= item.content.replace(/<[^<>]+>/g, '')
+                            p: a(href=item.link) Read more &gt;&gt;
+
+
+    if post
+        section.section
+            h4.section-header RECENT POSTS / 博客动态
+            .section-body-cards
+                for item in post.slice(0, 4)
+                    .post-card
+                        a.post-card-image(href=item.link style=`background-image: url(${item.altImage});`)
+                        .post-card-content
+                            p= item.content.replace(/<[^<>]+>/g, '')
+                            p: a(href=item.link) Read more &gt;&gt;
+                        .post-card-meta
+                            small &nbsp;by&nbsp;
+                            span= item.altTitle
+
+    block body_append
+        script(src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" type="text/javascript")
+        script(src="/owl/owl.carousel.min.js" type="text/javascript")
+        script
+            | $(function(){
+            |    console.log('start');
+            |    $(".owl-carousel").owlCarousel({
+            |       margin: 20,
+            | autoWidth: true,
+            |    });
+            | });
+
