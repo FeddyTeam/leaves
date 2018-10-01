@@ -3,7 +3,7 @@ const { Types: { ObjectId } } = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const isAuthed = require('../../lib/isAuthed')
-const { Roles: { EDITOR } } = require('../../lib/isAuthed')
+const { Roles: { EDITOR, ADMIN } } = require('../../lib/isAuthed')
 const generateQiniuToken = require('../../lib/generateQiniuToken')
 const { isEmail, isLength } = require('validator')
 const { isEmpty, omitBy } = require('lodash')
@@ -41,11 +41,30 @@ module.exports = {
             return user.toJSON()
         },
     },
+    user: {
+        async list (_, { options }, { auth }) {
+            assert(isAuthed(auth, ADMIN), '401')
+
+            const results = await User.find(null, null, options)
+            return results
+        },
+        async update(_, { user }, { auth }) {
+            assert(isAuthed(auth, ADMIN), '401')
+
+            const _user = await User.findById(user._id)
+            assert(!!_user, '400')
+
+            _user.set(user)
+            await _user.save()
+
+            return _user.toJSON()
+        },
+    },
     news: {
         async list (_, { options, filters }, { auth }) {
             assert(isAuthed(auth, EDITOR), '401')
 
-            const results = await News.find(omitBy(filters, isEmpty), null, options)
+            const results = await News.find(omitBy(filters, isEmpty), null, options).populate('user')
             return results
         },
         async create (_, args, { auth }) {
@@ -63,7 +82,7 @@ module.exports = {
         async update (_, { news }, { auth }) {
             assert(isAuthed(auth, EDITOR), '401')
 
-            const _news = await News.findById(news.id)
+            const _news = await News.findById(news._id)
             assert(!!_news, '400')
 
             _news.set(news)
@@ -91,7 +110,7 @@ module.exports = {
             const result = await bcrypt.compare(password, user.get('password'))
             assert(result, 'wrong_password@login')
 
-            const payload = { id: user.get('id') }
+            const payload = { id: user.get('id'), roles: user.get('roles') || { [ADMIN]: false, [EDITOR]: false } }
             const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1day' })
 
             return token

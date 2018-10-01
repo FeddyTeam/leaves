@@ -31,6 +31,14 @@ const User = mongoose.model('User', {
     bio: String,
     avatar: String,
     blog: String,
+    roles: {
+        admin: {
+            type: Boolean,
+        },
+        editor: {
+            type: Boolean,
+        }
+    },
 
     ...timeFields,
 })

@@ -2,15 +2,54 @@ const { gql } = require('apollo-server-express')
 
 const typeDefs = gql`
     type Profile {
-        id: ID
+        _id: ID
         username: String
-        fullname: String
+        name: String
         bio: String
+        avatar: String
+        blog: String
+    }
+
+    enum UserStatus {
+        pending
+        active
+        deleted
+    }
+
+    type UserRoles {
+        admin: Boolean
+        editor: Boolean
+    }
+
+    input UserRolesInput {
+        admin: Boolean
+        editor: Boolean
+    }
+
+    type User {
+        _id: ID
+        email: String
+        status: UserStatus
+        username: String
+        name: String
+        bio: String
+        avatar: String
+        blog: String
+        roles: UserRoles
+    }
+
+    input UserInput {
+        _id: ID!
+        username: String
+        email: String
+        status: UserStatus
+        roles: UserRolesInput
     }
 
     input ProfileInput {
-        fullname: String
+        name: String
         bio: String
+        blog: String
         avatar: String
     }
 
@@ -54,7 +93,7 @@ const typeDefs = gql`
     }
 
     type News {
-        id: ID
+        _id: ID
         title: String
         content: String
 
@@ -78,8 +117,8 @@ const typeDefs = gql`
     }
 
     input NewsInput {
-        id: ID!
-        title: String
+        _id: ID!
+        title: String!
         content: String
 
         category: NewsCategory
@@ -99,6 +138,7 @@ const typeDefs = gql`
         profile: Profile
         news(id: ID!): News
         newsList(options: ListOptions, filters: NewsListFilters = {}): [News]
+        userList(options: ListOptions): [User]
     }
 
     type Mutation {
@@ -106,6 +146,9 @@ const typeDefs = gql`
         profile(profile: ProfileInput!): Profile
         newsID: ID
         news(news: NewsInput!): News
+        user(user: UserInput!): User
+
+        qiniuToken: String
     }
 `
 module.exports = typeDefs
