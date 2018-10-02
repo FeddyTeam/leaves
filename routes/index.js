@@ -11,16 +11,14 @@ router
             status: 'active',
             level: { $in: ['normal', 'featured'] },
             category: { $in: ['news', 'event', 'notice', 'alert', 'project'] },
-        }, null, { sort: '-createdAt' })
+        }, null, { sort: '-createdAt', limit: 32 })
         const mustread = await News.find({
             status: 'active',
             level: 'mustread',
-        }, null, {
-            sort: '-createdAt',
-        })
+        }, null, { sort: '-createdAt', limit: 8 })
 
         await res.render('index', {
-            ...groupBy(_base, 'type'),
+            ...groupBy(_base, 'category'),
             mustread
         })
     })

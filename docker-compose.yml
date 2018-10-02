@@ -1,0 +1,9 @@
+version: "2"
+services:
+    app:
+        build: .
+        ports:
+            - "3200:3200"
+        volumes:
+            - "./:/var/www/node"
+
