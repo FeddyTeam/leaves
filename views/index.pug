@@ -9,12 +9,12 @@ block main
             for item in mustread.slice(0, 4)
                 .carousel-card
                     if item.link
-                        a.carousel-card-image(href=item.link, target="_blank", style=`display: block; background-image: url(${item.image});`)
+                        a.carousel-card-image(href=item.link, target="_blank", style=`display: block; background-image: url(${item.screen});`)
                         .carousel-card-meta
                             h5.carousel-card__title= item.title
                             span= item.author
                     else
-                        .carousel-card-image(style=`background-image: url(${item.image});`)
+                        .carousel-card-image(style=`background-image: url(${item.screen});`)
                         .carousel-card-meta
                             h5.carousel-card__title= item.title
                             span= item.author

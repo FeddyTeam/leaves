@@ -21,6 +21,9 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use('/skyland', [express.static(path.join(__dirname, 'public/skyland')), (req, res, next) => {
+    res.sendFile(path.join(__dirname, 'public/skyland/index.html'))
+}])
 app.use(express.static(path.join(__dirname, 'public')))
 
 apollo.applyMiddleware({ app })
