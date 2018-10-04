@@ -29,6 +29,7 @@ To-Do
     - [ ] ~~Sign Up~~
 - [x] Auth
     - [x] Roles
+    - [x] Renew
 - [x] News
     - [x] Create / Update
     - [x] Fetch
