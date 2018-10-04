@@ -114,6 +114,19 @@ module.exports = {
             const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1day' })
 
             return token
+        },
+        async renew (_, args, { auth }) {
+            assert(isAuthed(auth), '401')
+
+            const { id } = auth
+
+            const user = await User.findById(id)
+            assert(!isEmpty(user), 'user_not_found@renew')
+
+            const payload = { id: user.get('id'), roles: user.get('roles') || { [ADMIN]: false, [EDITOR]: false } }
+            const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1day' })
+
+            return token
         }
     }
 }

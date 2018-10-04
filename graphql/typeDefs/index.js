@@ -143,6 +143,8 @@ const typeDefs = gql`
 
     type Mutation {
         login(form: LoginForm!): String
+        renew: String
+
         profile(profile: ProfileInput!): Profile
         newsID: ID
         news(news: NewsInput!): News

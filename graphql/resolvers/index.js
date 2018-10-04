@@ -26,6 +26,7 @@ const resolvers = {
         profile: profile.update,
 
         login: auth.login,
+        renew: auth.renew,
 
         qiniuToken: utils.qiniuToken,
     }
