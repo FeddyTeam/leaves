@@ -156,10 +156,8 @@ a {
     overflow: hidden;
 
     background: transparent;
-    transition: .3s ease background-color;
-}
+    transition: background .3s ease;
 
-.nav.between {
     justify-content: space-between;
 }
 
@@ -208,6 +206,10 @@ a {
     top: 0;
 }
 
+.nav .nav-items {
+    display: flex;
+}
+
 .nav .nav-item {
     color: #9ba7b5;
     text-decoration: none;
@@ -249,6 +251,7 @@ a.nav-item.active {
 
         flex-direction: column;
         align-items: stretch;
+        justify-content: flex-start;
     }
 
     .nav.active {
@@ -272,8 +275,13 @@ a.nav-item.active {
         background: #000;
     }
 
+    .nav .nav-items {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
     .nav .nav-item {
-        padding: 0;
+        padding: 10px 0;
         text-align: center;
     }
 
