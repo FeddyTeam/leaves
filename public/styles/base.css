@@ -1,7 +1,25 @@
+* {
+    box-sizing: border-box;
+}
+
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+}
+
+a {
+    transition: color .2s ease;
+}
+
+.layout {
+    padding-top: 75px;
+    background: #f5f7f9;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
 }
 
 .card {
@@ -15,19 +33,21 @@ html, body {
     max-width: 100%;
 }
 
-
 .section {
     padding: 48px;
     overflow: hidden;
 }
 
 .section-header {
-    margin: 60px auto;
     padding: 20px;
     text-align: center;
 
     border-left: 10px solid #ffc800;
     background-color: #ffffff;
+}
+
+.section-header h2 {
+    font-size: 2.2rem;
 }
 
 .section-body-cards {
@@ -126,23 +146,146 @@ html, body {
     background-color: #ffffff;
 }
 
-.owl-dots {
-    display: block;
+.nav {
+    top: 0;
+    z-index: 999;
+
+    width: 100%;
+    height: 55px;
+    font-size: 16px;
+    overflow: hidden;
+
+    background: transparent;
+    transition: .3s ease background-color;
+}
+
+.nav.between {
+    justify-content: space-between;
+}
+
+.nav .nav-logo {
     text-align: center;
 }
 
-.owl-dot {
-    display: inline-block;
-    width: 40px;
+.nav .nav-logo img {
     height: 40px;
-    background: #ffffff;
 }
 
-.owl-dot.active {
-    background: #ffc800;
+.nav.fixed {
+    position: fixed;
+    top: 0;
 }
 
-@media(max-width: 720px) {
+.nav .menu:after,
+.nav .menu:before {
+    content: "";
+    display: block;
+    width: 10vw;
+    height: 1.6vw;
+    background: #363b47;
+    border-radius: .8vw;
+    position: absolute;
+    left: 0;
+    transition: all,color .15s ease-in-out;
+}
+
+.nav .menu:before {
+    top: .5vw;
+    box-shadow: 0 3.7vw #363b47;
+}
+
+.nav .menu:after {
+    bottom: .5vw;
+}
+
+.nav .menu {
+    width: 10vw;
+    height: 10vw;
+    transition: right 1s;
+    transform: scale(.6);
+    position: absolute;
+    right: -12vw;
+    top: 0;
+}
+
+.nav .nav-item {
+    color: #9ba7b5;
+    text-decoration: none;
+}
+.nav .nav-item.active {
+    color: #ffffff;
+    background: #ffb101;
+}
+
+.nav.scroll {
+    background: #464c5b;
+}
+.nav.scroll .nav-item {
+    color: #ffffff;
+}
+.nav.scroll .nav-item.active {
+    color: #ffb101;
+    background: none;
+}
+
+a.nav-item:hover,
+a.nav-item:active,
+a.nav-item.active {
+    color: #ffb101;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) and (max-width: 720px),
+    only screen and (max-device-width: 720px) {
+    .nav {
+        position: fixed;
+        top: 0;
+        left: -50vw;
+        width: 50vw;
+        height: 100%;
+        padding: 40px 0;
+        background: #464c5b;
+        overflow: visible;
+        transition: all .3s;
+
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .nav.active {
+        left: 0;
+    }
+
+    .nav.active .menu {
+        right: 0;
+    }
+
+    .nav.active .menu:before {
+        top: 4.2vw;
+        box-shadow: none;
+        transform: rotate(225deg);
+        background: #000;
+    }
+
+    .nav.active .menu:after {
+        bottom: 4.2vw;
+        transform: rotate(135deg);
+        background: #000;
+    }
+
+    .nav .nav-item {
+        padding: 0;
+        text-align: center;
+    }
+
+    .nav .nav-logo {
+        margin: 20px;
+    }
+
+    .nav .nav-logo img {
+        height: 48px;
+    }
+
+
     .section {
         margin: 0;
         padding: 0;
@@ -154,7 +297,7 @@ html, body {
         border-top: 1px solid #ffc800;
     }
     .section-header h2 {
-        font-size: 1.2em;
+        font-size: 1.8rem;
     }
 
     .post-card {
@@ -201,5 +344,7 @@ html, body {
     .carousel-card__category {
         display: none;
     }
-
 }
+
+
+
