@@ -1,79 +1,119 @@
 extends layout
 
 block title
+    link(rel="stylesheet", href="/styles/home-page.css")
     title 首页 - Feddy
 
+block nav
+
 block main
-    if mustread
-        .owl-carousel
-            for item in mustread.slice(0, 4)
-                .carousel-card
-                    if item.link
-                        a.carousel-card-image(href=item.link, target="_blank", style=`display: block; background-image: url(${item.screen});`)
-                        .carousel-card-meta
-                            h5.carousel-card__title= item.title
-                            span= item.author
-                    else
-                        .carousel-card-image(style=`background-image: url(${item.screen});`)
-                        .carousel-card-meta
-                            h5.carousel-card__title= item.title
-                            span= item.author
-
-    section.section
-        h4.section-header About Feddy / 关于我们
-        p.text-center
-            span Front End ： Discover , Development and You是Feddy Team名称的由来。
-            a(href="https://blog.feddy.org/about-feddy/" target="_blank" title="About Feddy / 关于我们") 阅读&gt;&gt;
-
-    if event
-        section.section#events
-            h4.section-header EVENTS / 线下活动
-            .section-body-cards
-                for item in event.slice(0, 4)
-                    .post-card
-                        .post-card-meta
-                            span= item.title
-                        a.post-card-image(href=item.link style=`background-image: url(${item.altImage});`)
-                        .post-card-content
-                            p= item.content.replace(/<[^<>]+>/g, '')
-                            p: a(href=item.link) Read more &gt;&gt;
-
-    if project
-        section.section#projects
-            h4.section-header PROJECTS / 有趣的项目
-            .section-body-cards
-                for item in project.slice(0, 4)
-                    .post-card
-                        .post-card-meta
-                            span= item.title
-                        a.post-card-image(href=item.link style=`background-image: url(${item.altImage});`)
-                        .post-card-content
-                            p= item.content.replace(/<[^<>]+>/g, '')
-                            p: a(href=item.link) Read more &gt;&gt;
+    .layout-ceiling
+        .menu#menu
+        .layout-logo
+            img(src="https://image.feddy.org/logo.png", alt="")
+            span.title Feddy
+        .layout-ceiling-main
+            li.active: a(href="/") 首页
+            li: a 博客
+            li: a 线下活动
+            li: a 关于我们
+    .layout
+        .container
+            if mustread
+                .owl-carousel
+                    for item in mustread.slice(0, 4)
+                        .carousel-card
+                            .carousel-card-meta(style=`background-color: ${item.color};`)
+                                span.carousel-card__category= item.category
+                                h3.carousel-card__title= item.title
+                                if item.author
+                                    span.carousel-card__author= item.author
+                                p.carousel-card__content= item.content
+                                if item.link
+                                    a.carousel-card__link(href=item.link, target="_blank", style=`color: ${item.color};`) READ
+                            .carousel-card-image(style=`background-image: url(${item.screen});`)
 
 
-    if post
-        section.section#posts
-            h4.section-header RECENT POSTS / 博客动态
-            .section-body-cards
-                for item in post.slice(0, 4)
-                    .post-card
-                        a.post-card-image(href=item.link style=`background-image: url(${item.altImage});`)
-                        .post-card-content
-                            p= item.content.replace(/<[^<>]+>/g, '')
-                            p: a(href=item.link) Read more &gt;&gt;
-                        .post-card-meta
-                            small &nbsp;by&nbsp;
-                            span= item.author
+        .container
+            section.section
+                .section-header
+                    h2 About Feddy / 关于我们
+                p.text-center
+                    span Front End ： Discover , Development and You是Feddy Team名称的由来。
+                    a(href="https://blog.feddy.org/about-feddy/" target="_blank" title="About Feddy / 关于我们") 阅读&nbsp;&gt;&gt;
 
-    block body_append
-        script(src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" type="text/javascript")
-        script(src="/owl/owl.carousel.min.js" type="text/javascript")
-        script
-            | $(function(){
-            |    $(".owl-carousel").owlCarousel({
-            |       margin: 20,
-            | autoWidth: true,
-            |    });
-            | });
+            if event
+                section.section#events
+                    .section-header
+                        h2 EVENTS / 线下活动
+                        p 不定期组织分享会，帮助你们找到更好的自己
+                    .section-body-cards
+                        for item in event.slice(0, 3)
+                            .post-card
+                                .post-card-meta
+                                    span= item.title
+                                a.post-card-image(href=item.link style=`background-image: url(${item.image});`)
+                                .post-card-content
+                                    p= item.content.replace(/<[^<>]+>/g, '')
+                                    if item.link
+                                        p: a(href=item.link) READ&nbsp;&gt;&gt;
+
+            if project
+                section.section#projects
+                    .section-header
+                        h2 PROJECTS / 有趣的项目
+                        p 来呀，快活呀，反正有，大把时光
+                    .section-body-cards
+                        for item in project.slice(0, 4)
+                            .post-card
+                                .post-card-meta
+                                    span= item.title
+                                a.post-card-image(href=item.link style=`background-image: url(${item.image});`)
+                                .post-card-content
+                                    p= item.content.replace(/<[^<>]+>/g, '')
+                                    if item.link
+                                        p: a(href=item.link) READ&nbsp;&gt;&gt;
+
+
+            if post
+                section.section#posts
+                    .section-header
+                        h2 RECENT POSTS / 博客动态
+                    .section-body-cards
+                        for item in post.slice(0, 4)
+                            .post-card
+                                a.post-card-image(href=item.link style=`background-image: url(${item.image});`)
+                                .post-card-content
+                                    p= item.content.replace(/<[^<>]+>/g, '')
+                                    if item.link
+                                        p: a(href=item.link) READ&nbsp;&gt;&gt;
+                                .post-card-meta
+                                    small &nbsp;by&nbsp;
+                                    span= item.author
+        footer.text-center
+            p 2017-2018 © Feddy-Team
+
+
+block body_append
+    script(src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" type="text/javascript")
+    script(src="/owl/owl.carousel.min.js" type="text/javascript")
+    script
+        | $(function(){
+        |    $(".owl-carousel").owlCarousel({
+        |       margin: 20,
+        |       items: $('.carousel-card').length,
+        |       autoWidth: true,
+        |       pagination: true,
+        |    });
+        |    $('#menu').on('click', function() {
+        |        $('.layout-ceiling').toggleClass('active')
+        |    })
+        |    $(window).on('scroll', function() {
+        |        if ($(window).scrollTop() > 0) {
+        |            $('.layout-ceiling').addClass('scroll')
+        |        } else {
+        |            $('.layout-ceiling').removeClass('scroll')
+        |        }
+        |    })
+        | });
 
