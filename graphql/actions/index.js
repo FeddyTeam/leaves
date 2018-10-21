@@ -7,7 +7,7 @@ const { Roles: { EDITOR, ADMIN } } = require('../../lib/isAuthed')
 const generateQiniuToken = require('../../lib/generateQiniuToken')
 const { isEmail, isLength } = require('validator')
 const { isEmpty, omitBy } = require('lodash')
-const { User, News } = require('../../db')
+const { User, News, Topic, Comment } = require('../../db')
 const { JWT_SECRET } = process.env
 
 module.exports = {
@@ -17,6 +17,61 @@ module.exports = {
 
             return generateQiniuToken()
         }
+    },
+    comment: {
+        async list (_, { topicID, options }, { auth }) {
+            assert(isAuthed(auth), '401')
+
+            const results = await Comment.find({
+                // targetID = topicID
+            }, null, options)
+            return results
+        },
+        async create (_, { comment }, { auth }) {
+            assert(isAuthed(auth), '401') // Todo: role
+            const { id } = auth
+
+            const comment = new Comment({
+                ...comment,
+                userID: id,
+            })
+            await comment.save()
+
+            return comment.toJSON()
+        },
+        async delete () {},
+    },
+    topic: {
+        async list (_, { options }, { auth }) {
+            assert(isAuthed(auth), '401')
+
+            const results = await Topic.find(null, null, options).populate('user')
+            return results
+        },
+        async get (_, { topicID }, { auth }) {
+            assert(isAuthed(auth), '401') // Todo: role
+
+            const topic = await Topic.findById(topicID) // Todo
+            return topic
+        },
+        async create (_, { topic: { title } }, { auth }) {
+            assert(isAuthed(auth), '401') // Todo: role
+            const { id } = auth
+
+            const topic = new Topic({
+                title,
+                userID:  ObjectId(id),
+                user: ObjectId(id),
+            })
+            await topic.save()
+
+            return topic.toJSON()
+        },
+        async delete (_, { topicID }, { auth }) {
+            assert(isAuthed(auth), '401') // Todo: role
+
+            return topicID
+        },
     },
     profile: {
         async get (_, args, { auth }) {
@@ -59,6 +114,17 @@ module.exports = {
 
             return _user.toJSON()
         },
+        async select(_, { ids }, { auth }) { // Todo
+            assert(isAuthed(auth), '401')
+
+            const users = await User.find({
+                id: {
+                    in: ids
+                }
+            })
+
+            return users
+        }
     },
     news: {
         async list (_, { options, filters }, { auth }) {

@@ -1,4 +1,4 @@
-const { profile, auth, news, utils, user } = require('../actions')
+const { profile, auth, news, utils, user, topic, comment } = require('../actions')
 
 const resolvers = {
     Profile: {
@@ -13,6 +13,10 @@ const resolvers = {
         news: news.get,
         newsList: news.list,
         userList: user.list,
+        topicList: topic.list,
+        topic: topic.get,
+        commentList: comment.list,
+        userSelect: user.select,
     },
     User: {
         _id: ({ _id }) => _id.toString(),
@@ -27,6 +31,9 @@ const resolvers = {
 
         login: auth.login,
         renew: auth.renew,
+
+        topic: topic.create,
+        comment: comment.create,
 
         qiniuToken: utils.qiniuToken,
     }

@@ -134,11 +134,52 @@ const typeDefs = gql`
         author: String
     }
 
+    enum CommentResourceType {
+        none
+    }
+
+    type Comment {
+        _id: ID
+        content: String
+        targetID: ID
+        resourceType: CommentResourceType
+        resourceID: ID
+        userID: ID
+        user: Profile
+        createdAt: String
+        updatedAt: String
+    }
+
+    type Topic {
+        _id: ID
+        title: String
+        createdAt: String
+        updatedAt: String
+        comments: [Comment]
+    }
+
+    input TopicInput {
+        title: String!
+    }
+
+    input CommentInput {
+        targetID: ID!
+        content: String
+        resourceType: CommentResourceType
+        resourceID: ID
+    }
+
     type Query {
         profile: Profile
         news(id: ID!): News
         newsList(options: ListOptions, filters: NewsListFilters = {}): [News]
         userList(options: ListOptions): [User]
+
+        topicList(options: ListOptions): [Topic]
+        topic(id: ID!): Topic
+        commentList(targetID: ID!, options: ListOptions): [Comment]
+
+        userSelect(ids: [ID]): [Profile]
     }
 
     type Mutation {
@@ -151,6 +192,12 @@ const typeDefs = gql`
         user(user: UserInput!): User
 
         qiniuToken: String
+
+        topic(topic: TopicInput!): Topic
+        comment(comment: CommentInput!): Comment
     }
+
+
+
 `
 module.exports = typeDefs

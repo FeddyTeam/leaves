@@ -2,12 +2,15 @@ const mongoose = require('mongoose')
 const ObjectId = 'ObjectId'
 const timeFields = {
     createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
+    updatedAt: { type: Date, default: Date.now },
 }
 
-mongoose.connect(process.env.MONGODB_URL, {
-    useNewUrlParser: true,
-})
+mongoose.connect(
+    process.env.MONGODB_URL,
+    {
+        useNewUrlParser: true,
+    }
+)
 
 const UserLink = mongoose.model('UserLink', {
     provider: String,
@@ -37,9 +40,8 @@ const User = mongoose.model('User', {
         },
         editor: {
             type: Boolean,
-        }
+        },
     },
-
     ...timeFields,
 })
 
@@ -52,7 +54,7 @@ const Figure = mongoose.model('Figure', {
     sourceUrl: String,
 
     userID: ObjectId,
-    ...timeFields
+    ...timeFields,
 })
 
 const News = mongoose.model('News', {
@@ -61,7 +63,7 @@ const News = mongoose.model('News', {
 
     category: {
         type: String, // news, project, event, story, ad, notice
-        default: 'news'
+        default: 'news',
     },
     status: {
         type: String, // draft, active, deleted,
@@ -69,12 +71,12 @@ const News = mongoose.model('News', {
     },
     level: {
         type: String, // hidden, normal, featured, mustread
-        default: 'normal'
+        default: 'normal',
     },
 
     color: {
         type: String,
-        default: '#ffffff'
+        default: '#ffffff',
     },
     screen: String, // 1600x800
     image: String, // 640x480
@@ -88,12 +90,43 @@ const News = mongoose.model('News', {
         type: ObjectId,
         ref: 'User',
     },
-    ...timeFields
+    ...timeFields,
 })
+
+const Topic = {
+    title: String,
+    status: {
+        type: String, // draft, active, deleted
+        default: 'draft',
+    },
+    user: {
+        type: ObjectId,
+        ref: 'User',
+    },
+    ...timeFields,
+}
+
+const Comment = {
+    status: {
+        type: String, // active, deleted
+        default: 'active',
+    },
+    targetID: ObjectId,
+    content: String,
+    resourceType: {
+        type: String, // none
+        default: 'none', // text only
+    },
+    resourceID: ObjectId,
+    userID: ObjectId,
+    ...timeFields,
+}
 
 module.exports = {
     User,
     News,
     Figure,
     UserLink,
+    Topic,
+    Comment,
 }
